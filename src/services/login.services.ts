@@ -3,12 +3,14 @@ import { compareSync } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import 'dotenv/config';
 import { QueryConfig, QueryResult } from 'pg';
-import { IUser, TUserLogin } from '../interfaces/types';
+import { IToken, IUser, TUserLogin } from '../interfaces/types';
 import { client } from '../database';
 import { AppError } from '../error';
 import { loginRequestSchema } from '../schemas/userAndLogin.schemas';
 
-export const loginServices = async (userRequest: TUserLogin): Promise<any> => {
+export const loginServices = async (
+  userRequest: TUserLogin
+): Promise<IToken> => {
   loginRequestSchema.parse(userRequest);
 
   const queryString = `

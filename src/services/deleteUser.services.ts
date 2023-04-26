@@ -1,7 +1,7 @@
 import { QueryConfig } from 'pg';
 import { client } from '../database';
 
-export const deleteUserServices = async (id: number): Promise<any> => {
+export const deleteUserServices = async (id: number): Promise<void> => {
   const queryString: string = `
     UPDATE users 
       SET ("active") =

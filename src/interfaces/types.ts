@@ -5,6 +5,7 @@ import {
   userBodyUpdateSchema,
   userLoginSchema,
   userRequestSchema,
+  userResponseAllUserSchema,
   userResponseSchema,
   userSchema,
 } from '../schemas/userAndLogin.schemas';
@@ -12,6 +13,8 @@ import {
 export type IUser = z.infer<typeof userSchema>;
 
 export type TUserResponse = z.infer<typeof userResponseSchema>;
+
+export type TUserResponseAllUser = z.infer<typeof userResponseAllUserSchema>;
 
 export type TUserRequest = z.infer<typeof userRequestSchema>;
 

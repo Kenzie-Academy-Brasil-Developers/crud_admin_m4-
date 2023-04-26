@@ -1,7 +1,7 @@
 import format from 'pg-format';
 import { hash } from 'bcryptjs';
 import { QueryResult } from 'pg';
-import { TUserBodyRequest } from '../interfaces/types';
+import { TUserBodyRequest, TUserResponse } from '../interfaces/types';
 import { client } from '../database';
 import { TUserRequest } from '../interfaces/types';
 import {
@@ -11,7 +11,7 @@ import {
 
 export const newUserServise = async (
   userRequest: TUserRequest
-): Promise<any> => {
+): Promise<TUserResponse> => {
   userBodyRequestSchema.parse(userRequest);
 
   const newUser: TUserRequest = {

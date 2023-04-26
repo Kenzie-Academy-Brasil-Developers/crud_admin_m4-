@@ -1,5 +1,5 @@
 import format from 'pg-format';
-import { TUserBodyRequest } from '../interfaces/types';
+import { TUserBodyRequest, TUserResponse } from '../interfaces/types';
 import { QueryConfig, QueryResult } from 'pg';
 import { client } from '../database';
 import {
@@ -13,7 +13,7 @@ export const updateUserService = async (
   id: number,
   tokenId: number,
   isAdm: boolean
-): Promise<any> => {
+): Promise<TUserResponse> => {
   updateUserSchema.parse(newUpdateUser);
 
   if (id !== tokenId && !isAdm)

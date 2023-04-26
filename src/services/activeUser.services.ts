@@ -1,10 +1,10 @@
 import { QueryConfig, QueryResult } from 'pg';
 import { client } from '../database';
 import { userResponseSchema } from '../schemas/userAndLogin.schemas';
-import { IUser } from '../interfaces/types';
+import { IUser, TUserResponse } from '../interfaces/types';
 import { AppError } from '../error';
 
-export const activeUserService = async (id: number): Promise<any> => {
+export const activeUserService = async (id: number): Promise<TUserResponse> => {
   const queryString: string = `
       UPDATE users 
         SET ("active") =
