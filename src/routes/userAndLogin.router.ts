@@ -9,7 +9,8 @@ import { updateUserControllers } from '../controllers/updateUser.controllers';
 import { deleteUserControllers } from '../controllers/deleteUser.controllers';
 import { verifyUserExist } from '../middlewares/verifyUserExist.middleware';
 import { activeUserControllers } from '../controllers/activeUser.controllers';
-import { verifyActiveUser } from '../middlewares/varifyActiveUser.middleware';
+import { verifyIsAdmin } from '../middlewares/verifyIsAdm.middleware';
+import { verifyUserActive } from '../middlewares/varifyUserActive.middleware';
 
 export const userRouter = Router();
 
@@ -17,26 +18,35 @@ export const loginRouter = Router();
 
 userRouter.post('', validationEmailExist, newUserControllers);
 loginRouter.post('', loginControllers);
-userRouter.get('', validationTokenMiddleware, getAllUsersControllers);
-userRouter.get('/profile', validationTokenMiddleware, getUserByIdControllers);
+userRouter.get(
+  '',
+  validationTokenMiddleware,
+  verifyIsAdmin,
+  getAllUsersControllers
+);
+userRouter.get(
+  '/profile',
+  validationTokenMiddleware,
+  verifyUserExist,
+  getUserByIdControllers
+);
 userRouter.patch(
   '/:id',
   validationTokenMiddleware,
   verifyUserExist,
-  verifyActiveUser,
   updateUserControllers
 );
 userRouter.delete(
   '/:id',
   validationTokenMiddleware,
   verifyUserExist,
-  verifyActiveUser,
   deleteUserControllers
 );
 userRouter.put(
   '/:id/recover',
   validationTokenMiddleware,
   verifyUserExist,
-  verifyActiveUser,
+  verifyIsAdmin,
+  verifyUserActive,
   activeUserControllers
 );

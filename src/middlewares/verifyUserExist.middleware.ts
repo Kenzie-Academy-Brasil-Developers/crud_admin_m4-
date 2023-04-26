@@ -7,14 +7,16 @@ export const verifyUserExist = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<Response | void> => {
+  let id = req.params.id ? req.params.id : res.locals.userId;
+
   const queryString: string = `
     SELECT * FROM users
     WHERE id = $1;`;
 
   const queryConfig: QueryConfig = {
     text: queryString,
-    values: [req.params.id],
+    values: [id],
   };
 
   const queryResult: QueryResult = await client.query(queryConfig);

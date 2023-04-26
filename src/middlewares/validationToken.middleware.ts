@@ -15,10 +15,11 @@ export const validationTokenMiddleware = (
   verify(token, process.env.SECRET_KEY!, (err: any, d: any) => {
     if (err) throw new AppError(err.message, 401);
 
-    res.locals.email = d.email;
-    res.locals.name = d.name;
-    res.locals.isAdmin = d.isAdmin;
-    res.locals.userId = d.id;
+    res.locals.email = d.email; // undefined
+    res.locals.name = d.name; // undefined
+    res.locals.isAdmin = d.admin;
+    res.locals.userId = Number(d.sub);
+    res.locals.active = d.active; // undefined
   });
 
   next();

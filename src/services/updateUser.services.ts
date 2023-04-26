@@ -1,18 +1,23 @@
 import format from 'pg-format';
-import { TUserBodyUpdateSchema } from '../interfaces/types';
+import { TUserBodyRequest } from '../interfaces/types';
 import { QueryConfig, QueryResult } from 'pg';
 import { client } from '../database';
-import { userResponseSchema } from '../schemas/userAndLogin.schemas';
+import {
+  updateUserSchema,
+  userResponseSchema,
+} from '../schemas/userAndLogin.schemas';
 import { AppError } from '../error';
 
 export const updateUserService = async (
-  newUpdateUser: TUserBodyUpdateSchema,
+  newUpdateUser: Partial<TUserBodyRequest>,
   id: number,
   tokenId: number,
   isAdm: boolean
 ): Promise<any> => {
+  updateUserSchema.parse(newUpdateUser);
+
   if (id !== tokenId && !isAdm)
-    throw new AppError('Insufficient Permission', 401);
+    throw new AppError('Insufficient Permission', 403);
 
   const queryString: string = format(
     `

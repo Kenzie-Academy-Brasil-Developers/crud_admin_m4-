@@ -1,18 +1,12 @@
 import { QueryConfig } from 'pg';
 import { client } from '../database';
-import { AppError } from '../error';
 
-export const deleteUserServices = async (
-  id: number,
-  tokenId: number,
-  isAdm: boolean
-): Promise<any> => {
-  if (id !== tokenId && !isAdm)
-    throw new AppError('Insufficient Permission', 401);
-
+export const deleteUserServices = async (id: number): Promise<any> => {
   const queryString: string = `
-    DELETE FROM users 
-    WHERE id = $1;
+    UPDATE users 
+      SET ("active") =
+      ROW (false)
+    WHERE id = $1
   `;
 
   const queryConfig: QueryConfig = {

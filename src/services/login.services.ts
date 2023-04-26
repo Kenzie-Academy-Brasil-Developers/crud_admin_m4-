@@ -37,7 +37,7 @@ export const loginServices = async (userRequest: TUserLogin): Promise<any> => {
       isAdmin: user.admin,
       name: user.name,
       email: user.email,
-      id: user.id,
+      active: user.active,
     },
     process.env.SECRET_KEY!,
     {

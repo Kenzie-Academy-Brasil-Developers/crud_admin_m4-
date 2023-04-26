@@ -1,22 +1,24 @@
-export interface IUser {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  admin?: boolean | null | undefined;
-  active: boolean;
-}
+import { z } from 'zod';
+import {
+  tokenSchema,
+  userBodyRequestSchema,
+  userBodyUpdateSchema,
+  userLoginSchema,
+  userRequestSchema,
+  userResponseSchema,
+  userSchema,
+} from '../schemas/userAndLogin.schemas';
 
-export type TUserResponse = Omit<IUser, 'password'>;
+export type IUser = z.infer<typeof userSchema>;
 
-export type TUserRequest = Omit<IUser, 'id'>;
+export type TUserResponse = z.infer<typeof userResponseSchema>;
 
-export type TUserBodyRequest = Omit<TUserRequest, 'active'>;
+export type TUserRequest = z.infer<typeof userRequestSchema>;
 
-export type TUserBodyUpdateSchema = Omit<TUserBodyRequest, 'admin'>;
+export type TUserBodyRequest = z.infer<typeof userBodyRequestSchema>;
 
-export type TUserLogin = Omit<TUserBodyRequest, 'admin' | 'name'>;
+export type TUserBodyUpdateSchema = z.infer<typeof userBodyUpdateSchema>;
 
-export interface IToken {
-  token: string;
-}
+export type TUserLogin = z.infer<typeof userLoginSchema>;
+
+export type IToken = z.infer<typeof tokenSchema>;

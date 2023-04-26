@@ -1,16 +1,20 @@
 import { Request, Response } from 'express';
 import { activeUserService } from '../services/activeUser.services';
+import { AppError } from '../error';
 
 export const activeUserControllers = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const id: number = res.locals.userId;
+  const id: number = Number(req.params.id);
   const isAdm: boolean = res.locals.isAdmin;
-  const active: boolean = res.locals.active;
   const tokenId: number = res.locals.userId;
 
-  const activeUser = await activeUserService(id, isAdm, active, tokenId);
+  console.log(tokenId);
+
+  /*  if (active) throw new AppError('User already active', 400); */
+
+  const activeUser = await activeUserService(id);
 
   return res.status(200).json(activeUser);
 };

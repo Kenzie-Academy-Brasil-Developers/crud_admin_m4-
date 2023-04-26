@@ -4,12 +4,12 @@ import { client } from '../database';
 import { IUser } from '../interfaces/types';
 import { AppError } from '../error';
 
-export const verifyActiveUser = async (
+export const verifyIsAdmin = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
-  const id: number = Number(req.params.id);
+): Promise<Response | void> => {
+  let id: number = res.locals.userId;
 
   const queryString: string = `
     SELECT * FROM users
@@ -23,10 +23,10 @@ export const verifyActiveUser = async (
 
   const queryResult: QueryResult<IUser> = await client.query(queryConfig);
 
-  res.locals.active = queryResult.rows[0].active;
+  console.log(queryResult.rows[0]);
 
-  if (req.route.path !== '/:id/recover' && !queryResult.rows[0].active)
-    throw new AppError('Wrong email/password', 401);
+  if (!queryResult.rows[0].admin)
+    throw new AppError('Insufficient Permission', 403);
 
   next();
 };

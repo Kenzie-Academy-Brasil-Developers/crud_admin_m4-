@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { deleteUserServices } from '../services/deleteUser.services';
+import { AppError } from '../error';
 
 export const deleteUserControllers = async (
   req: Request,
@@ -9,7 +10,10 @@ export const deleteUserControllers = async (
   const idToken: number = res.locals.userId;
   const isAdm: boolean = res.locals.isAdmin;
 
-  deleteUserServices(id, idToken, isAdm);
+  if (id !== idToken && !isAdm)
+    throw new AppError('Insufficient Permission', 403);
+
+  deleteUserServices(id);
 
   return res.status(204).send();
 };

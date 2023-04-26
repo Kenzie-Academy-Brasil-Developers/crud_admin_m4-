@@ -2,10 +2,9 @@ import { QueryConfig, QueryResult } from 'pg';
 import { TUserResponse } from '../interfaces/types';
 import { client } from '../database';
 import { userResponseSchema } from '../schemas/userAndLogin.schemas';
+import { AppError } from '../error';
 
 export const getUserByTokenServices = async (id: number): Promise<any> => {
-  const userId: number = id;
-
   const queryString: string = `
     SELECT * FROM users
     WHERE id = $1;  
